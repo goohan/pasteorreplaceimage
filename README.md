@@ -1,52 +1,50 @@
 # pasteorreplaceimage README
 
-This is the README for your extension "pasteorreplaceimage". After writing up a brief description, we recommend including the 
-following sections.
+This extension allows you to replace an existing image with an image stored in the clipboard. It also allows you to paste a new image from the clipboard into a folder. Image must be copied to clipboard, file copy only will not work.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Replace image from clipboard
 
-For example if there is an image subfolder under your extension project workspace:
+![picture 1](/assets/screenshot-replace-img.gif)
 
-\!\[feature X\]\(images/feature-x.png\)
+This is a command and extension menu for image items in the source explorer. Replace existing image.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- For Windows **png, jpg, bmp and gif** are supported.
+- Currently for Linux and mac **png** only is supported. (if you are a linux or Mac developer I invite you to improve this extension in github! 🫶)
+
+Gif support for Windows only:
+
+![picture 1](/assets/screenshot-replace-gif.gif)
+
+## Paste image
+
+![picture 3](/assets/screenshot-paste-img.png)
+
+This is a command and extension menu for folders in the source explorer. Take an image stored on clipboard and paste as a new image inside the selected folder. The name of the new file is a number obtained using the TypeScript expression `new Date().getTime()`, the extension is added based on next rules:
+
+- For Windows if there is a gif image on clipboard, a new .gif image will be created, any other image type on clipboard will be resolved as .png.
+- For Linux and Mac any image type on clipboard will be resolved as .png.
+
+Both features can accessed through command pallete: `F1` or `Ctrl + Shift P`. Make sure you have the appropriated selected item in the source explorer.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Linux users must have XClip installed. Windows users must have PowerShell installed.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Currently there is no settings available for this extension.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+No known issues.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release.
 
 ---
 
@@ -63,10 +61,5 @@ You can author your README using Visual Studio Code. Here are some useful editor
 * Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
 * Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
 * Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**

@@ -18,21 +18,21 @@ export function activate(context: vscode.ExtensionContext) {
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('pasteorreplaceimage.replaceimagefromclipboard', (contextSelection: vscode.Uri, allSelections: vscode.Uri[]) => {
 		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user		
+		// Display a message box to the user
         console.log(contextSelection);
 
         //getPasteImage('C:\\Users\\User\\Desktop\\TestRepoBorreme\\img.png');
-        getPasteImage(contextSelection.fsPath);        
+        pasteImage(contextSelection.fsPath, false);
 	});
 
+    // Paste image into folder
     let disposable2 = vscode.commands.registerCommand('pasteorreplaceimage.pasteimagefromclipboard', (contextSelection: vscode.Uri, allSelections: vscode.Uri[]) => {
 		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user		
-        console.log(contextSelection);
+		// Display a message box to the user
 
-        //getPasteImage('C:\\Users\\User\\Desktop\\TestRepoBorreme\\img.png');
-        let finalpath =  path.resolve(contextSelection.fsPath, `${new Date().getTime()}.png`);
-        getPasteImage(finalpath);        
+        console.log(contextSelection);
+        let finalpath =  path.resolve(contextSelection.fsPath, `${new Date().getTime()}`);
+        pasteImage(finalpath, true);        
 	});
 
 	context.subscriptions.push(disposable);
@@ -42,17 +42,62 @@ export function activate(context: vscode.ExtensionContext) {
 // This method is called when your extension is deactivated
 export function deactivate() {}
 
-function getPasteImage(imagePath: string) : Promise<string[]>{
+/**
+ * @description Paste an image from clipboard. If {isNew} is false then {imagePath} must include the extension file.
+ * If {isNew} its true then {imagePath} must not include extension because it will be defined by the content of the Cliboard, if
+ * if clipboard has a reference to gif file then final file extension will be .gif, any other content on clipboard will be resolved as .png.
+ * Currently this works like this only for windows. For linux or mac, everything is resolved as .png.
+ * @param {string} imagePath
+ * @param {boolean} isNew
+ * @returns {number}
+ */
+function pasteImage(imagePath: string, isNew: boolean) : Promise<string[]>{  
+
     return new Promise((resolve, reject) => {
         if (!imagePath) { return; }
-
+        
         let platform = process.platform;
+                
+        // Check extension and define final path based on platform and extension support.
+        
+        if (!isNew) {
+            // For replace image (paste over file that exist previously on folder).
+            // Currently for windows support for png, jpg, bmp, gif on windows. Linux and mac support for png only.
+            let supportedImageExtensions : string[];
+            if (platform === 'win32'){
+                supportedImageExtensions = ['.png', '.jpg', '.bmp', '.gif'];
+            }
+            else{
+                supportedImageExtensions = ['.png'];
+            }
+
+            let fileExtension = path.extname(imagePath);
+            if(!supportedImageExtensions.includes(fileExtension)) {
+                console.log("Not supported extension file. No image will be pasted. On Windows is supported png, jpg, bmp and gif. Other platforms png only. If you are a linux or mac developer try to improve this extension on github :D");
+                return;
+            }
+        }
+        else {
+            // For new image (paste  file that does't exist previously on folder).
+            // Currently for windows support for gif and png. The image path must no include extension, because Powershell
+            // script will define the final extension based on clipboard content (gif or any other as png).
+            // For linux or mac support for png only, if clipboard contains gif, it will be pasted as png.
+            if (platform !== 'win32')
+            {
+                imagePath = imagePath + ".png";
+            }
+        }
+
         if (platform === 'win32') {
             // Windows
-            const scriptPath = path.join(__dirname, '..' , 'asserts/pc.ps1');
 
-            //let command = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-            let command = "C:\\Program Files\\PowerShell\\7\\pwsh.exe";
+            // for .gif the replace or paste is like paste file, the data of image is not in clipboard.
+            // for this reason it is necessary to use a different script.
+            let scriptName = 'resources/windows/Paste-FromClipboard.ps1';
+            const scriptPath = path.join(__dirname, '..' , scriptName);
+
+            let command = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe";
+            //let command = "C:\\Program Files\\PowerShell\\7\\pwsh.exe";
             let powershellExisted = fs.existsSync(command);
             let output = '';
             if (!powershellExisted) {
@@ -67,7 +112,8 @@ function getPasteImage(imagePath: string) : Promise<string[]>{
                 '-executionpolicy', 'unrestricted',
                 '-windowstyle', 'hidden',
                 '-file', scriptPath,
-                imagePath
+                imagePath,
+                isNew.toString()
             ]);
             // the powershell can't auto exit in windows 7 .
             let timer = setTimeout(() => powershell.kill(), 2000);
@@ -84,7 +130,7 @@ function getPasteImage(imagePath: string) : Promise<string[]>{
                 console.debug('exit', code, signal);
             });
             powershell.stdout.on('data', (data) => {
-                data.toString().split('\n').forEach(d => output += (d.indexOf('Active code page:') < 0 ? d + '\n' : ''));
+                data.toString().split('\n').forEach((d: any) => output += (d.indexOf('Active code page:') < 0 ? d + '\n' : ''));
                 clearTimeout(timer);
                 timer = setTimeout(() => powershell.kill(), 2000);
             });
@@ -94,7 +140,7 @@ function getPasteImage(imagePath: string) : Promise<string[]>{
         }
         else if (platform === 'darwin') {
             // Mac
-            let scriptPath = path.join(__dirname, '..', '..' , 'asserts/mac.applescript');
+            let scriptPath = path.join(__dirname, '..', '..' , 'resources/mac.applescript');
 
             let ascript = spawn('osascript', [scriptPath, imagePath]);
             ascript.on('error', (e: any) => {
@@ -109,7 +155,7 @@ function getPasteImage(imagePath: string) : Promise<string[]>{
         } else {
             // Linux
 
-            let scriptPath = path.join(__dirname, '..', '..' , 'asserts/linux.sh');
+            let scriptPath = path.join(__dirname, '..', '..' , 'resources/linux.sh');
 
             let ascript = spawn('sh', [scriptPath, imagePath]);
             ascript.on('error', (e: any) => {
@@ -121,12 +167,13 @@ function getPasteImage(imagePath: string) : Promise<string[]>{
             ascript.stdout.on('data', (data) => {
                 let result = data.toString().trim();
                 if (result === "no xclip") {
-                    vscode.window.showInformationMessage(locale['install_xclip']);
+                    vscode.window.showInformationMessage('please install xclip');
                     return;
                 }
                 let match = decodeURI(result).trim().match(/((\/[^\/]+)+\/[^\/]*?\.(jpg|jpeg|gif|bmp|png))/g);
                 resolve(match || []);
             });
         }
-    });
+    }
+    );
 }
