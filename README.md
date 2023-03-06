@@ -4,7 +4,7 @@ This extension allows you to replace an existing image with an image stored in c
 
 Image data must be copied to clipboard (like when using Paint, Snipping tools or Image Viewer), file copy only (File Explorer) will not work.
 
-The next features can accessed through command pallete: `F1` or `Ctrl + Shift P`. Make sure you have the appropriated selected item in the source explorer and type feature name.
+The next features can be accessed through command pallete: `F1` or `Ctrl + Shift P`. Make sure you have the appropriated selected item in the source explorer and type feature name.
 
 ## Features
 
