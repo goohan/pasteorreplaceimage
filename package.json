@@ -1,6 +1,6 @@
 {
   "name": "pasteorreplaceimage",
-  "displayName": "PasteOrReplaceImage",
+  "displayName": "Paste or replace image",
   "description": "Paste or replace image (including gifs) from clipboard",
   "version": "0.0.1",
   "engines": {
@@ -9,6 +9,10 @@
   "categories": [
     "Other"
   ],
+  "repository": "https://github.com/goohan/pasteorreplaceimage}",
+  "icon": "assets/icon.png",
+  "license": "MIT",
+  "publisher": "goohan",
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
