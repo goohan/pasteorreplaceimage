@@ -1,6 +1,10 @@
 # Paste or replace image from clipboard
 
-This extension allows you to replace an existing image with an image stored in the clipboard. It also allows you to paste a new image from the clipboard into a folder. Image must be copied to clipboard, file copy only will not work.
+This extension allows you to replace an existing image with an image stored in clipboard. It also allows you to paste a new image from clipboard into a folder.
+
+Image data must be copied to clipboard (like when using Paint, Snipping tools or Image Viewer), file copy only (File Explorer) will not work.
+
+Next features can accessed through command pallete: `F1` or `Ctrl + Shift P`. Make sure you have the appropriated selected item in the source explorer and type feature name.
 
 ## Features
 
@@ -8,10 +12,10 @@ This extension allows you to replace an existing image with an image stored in t
 
 ![picture 1](/assets/screenshot-replace-img.gif)
 
-This is a command and extension menu for image items in the source explorer. Replace existing image.
+This is a command and extension menu for image items in the source explorer. Replace existing image with clipboard content.
 
-- For Windows **png, jpg, bmp and gif** are supported.
-- Currently for Linux and mac **png** only is supported. (if you are a linux or Mac developer I invite you to improve this extension in github! 🫶)
+- Support for Windows: **png, jpg, bmp and gif** are supported.
+- Support for Linux and Mac: Currently **png** only is supported. (If you are a Linux or Mac developer I invite you to improve this extension on GitHub! 🫶)
 
 Gif support for Windows only:
 
@@ -21,12 +25,12 @@ Gif support for Windows only:
 
 ![picture 3](/assets/screenshot-paste-img.png)
 
-This is a command and extension menu for folders in the source explorer. Take an image stored on clipboard and paste as a new image inside the selected folder. The name of the new file is a number obtained using the TypeScript expression `new Date().getTime()`, the extension is added based on next rules:
+This is a command and extension menu for folders in the source explorer. Take an image stored on clipboard and paste as a new image inside the selected folder. The name of the new file is a number obtained using the TypeScript expression `new Date().getTime()`, the file extension is added based on next rules:
 
 - For Windows if there is a gif image on clipboard, a new .gif image will be created, any other image type on clipboard will be resolved as .png.
 - For Linux and Mac any image type on clipboard will be resolved as .png.
 
-Both features can accessed through command pallete: `F1` or `Ctrl + Shift P`. Make sure you have the appropriated selected item in the source explorer.
+The resulting names are like `TargetFolder/1678056093011.png` or `TargetFolder/1678052302778.gif`.
 
 ## Requirements
 
@@ -50,8 +54,7 @@ Initial release.
 
 ## Credits
 
-The icon for this extension is based on this icon:
-
+The icon for this extension is based on Flaticon asset:
 <a href="https://www.flaticon.com/free-icons/outstanding" title="outstanding icons">Outstanding icons created by Freepik - Flaticon</a>
 
 **Enjoy!**

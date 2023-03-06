@@ -58,8 +58,7 @@ function pasteImage(imagePath: string, isNew: boolean) : Promise<string[]>{
         
         let platform = process.platform;
                 
-        // Check extension and define final path based on platform and extension support.
-        
+        // Check extension and define final path based on platform and extension support.        
         if (!isNew) {
             // For replace image (paste over file that exist previously on folder).
             // Currently for windows support for png, jpg, bmp, gif on windows. Linux and mac support for png only.
@@ -78,7 +77,7 @@ function pasteImage(imagePath: string, isNew: boolean) : Promise<string[]>{
             }
         }
         else {
-            // For new image (paste  file that does't exist previously on folder).
+            // For new image (paste file that does't exist previously on folder).
             // Currently for windows support for gif and png. The image path must no include extension, because Powershell
             // script will define the final extension based on clipboard content (gif or any other as png).
             // For linux or mac support for png only, if clipboard contains gif, it will be pasted as png.
@@ -140,7 +139,8 @@ function pasteImage(imagePath: string, isNew: boolean) : Promise<string[]>{
         }
         else if (platform === 'darwin') {
             // Mac
-            let scriptPath = path.join(__dirname, '..', '..' , 'resources/mac.applescript');
+            
+            let scriptPath = path.join(__dirname, '..' , 'resources/mac/mac.applescript');
 
             let ascript = spawn('osascript', [scriptPath, imagePath]);
             ascript.on('error', (e: any) => {
@@ -152,10 +152,11 @@ function pasteImage(imagePath: string, isNew: boolean) : Promise<string[]>{
             ascript.stdout.on('data', (data) => {
                 resolve(data.toString().trim().split('\n'));
             });
-        } else {
+        } 
+        else {
             // Linux
-
-            let scriptPath = path.join(__dirname, '..', '..' , 'resources/linux.sh');
+            
+            let scriptPath = path.join(__dirname, '..' , 'resources/linux/linux.sh');
 
             let ascript = spawn('sh', [scriptPath, imagePath]);
             ascript.on('error', (e: any) => {
