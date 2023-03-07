@@ -46,10 +46,6 @@ No known issues.
 
 ## Release Notes
 
-### 0.0.2
-
-README.md and metadata enhancement.
-
 ### 1.0.0
 
 Initial release.
