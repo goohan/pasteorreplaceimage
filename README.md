@@ -58,6 +58,6 @@ Initial release.
 
 ## Credits
 
-The icon for this extension is based on Flaticon asset: [Outstanding icons created by Freepik - Flaticons](https://www.flaticon.com/free-icons/outstanding)
+The icon for this extension is based on Flaticon library: [Outstanding icons created by Freepik - Flaticons](https://www.flaticon.com/free-icons/outstanding)
 
 **Enjoy!**
