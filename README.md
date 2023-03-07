@@ -46,6 +46,10 @@ No known issues.
 
 ## Release Notes
 
+### 0.0.2
+
+README.md and metadata enhancement.
+
 ### 1.0.0
 
 Initial release.
@@ -54,7 +58,6 @@ Initial release.
 
 ## Credits
 
-The icon for this extension is based on Flaticon asset:
-<a href="https://www.flaticon.com/free-icons/outstanding" title="outstanding icons">Outstanding icons created by Freepik - Flaticon</a>
+The icon for this extension is based on Flaticon asset: [Outstanding icons created by Freepik - Flaticons](https://www.flaticon.com/free-icons/outstanding)
 
 **Enjoy!**

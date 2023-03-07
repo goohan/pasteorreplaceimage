@@ -2,14 +2,21 @@
   "name": "pasteorreplaceimage",
   "displayName": "Paste or replace image",
   "description": "Paste or replace image (including gifs) from clipboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.75.0"
   },
   "categories": [
     "Other"
   ],
-  "repository": "https://github.com/goohan/pasteorreplaceimage}",
+  "keywords": [
+    "replace",
+    "paste",
+    "image",
+    "clipboard",
+    "png", "jpg", "bmp", "gif"
+  ],
+  "repository": {"type": "git", "url": "https://github.com/goohan/pasteorreplaceimage}"},
   "icon": "assets/icon.png",
   "license": "MIT",
   "publisher": "goohan",
