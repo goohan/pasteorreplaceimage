@@ -46,6 +46,10 @@ No known issues.
 
 ## Release Notes
 
+## 0.0.3
+
+Fixed PowerShell script to create or override file correctly.
+
 ### 0.0.2
 
 Metadata enhancements.

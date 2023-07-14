@@ -6,6 +6,10 @@ All notable changes to the "pasteorreplaceimage" extension will be documented in
 
 No changes.
 
+## 0.0.3
+
+Fixed PowerShell script to create or override file correctly.
+
 ## 0.0.2
 
 Metadata enhancements.

@@ -62,7 +62,7 @@ if ($destinationFileInfo.Extension -ne ".gif") {
         
     $img = [Windows.Clipboard]::GetImage()
     
-    $stream = [IO.File]::Open($destinationFileInfo.FullName, "OpenOrCreate")
+    $stream = [IO.File]::Open($destinationFileInfo.FullName, "Create")
     $fcb = New-Object Windows.Media.Imaging.FormatConvertedBitmap($img, [Windows.Media.PixelFormats]::Rgb24, $null, 0)
     $encoder.Frames.Add([Windows.Media.Imaging.BitmapFrame]::Create($fcb)) | out-null
     $encoder.Save($stream) | out-null
