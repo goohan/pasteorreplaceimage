@@ -4,7 +4,7 @@ All notable changes to the "pasteorreplaceimage" extension will be documented in
 
 ## [Unreleased]
 
-No changes.
+No changes yet.
 
 ## 0.0.3
 
